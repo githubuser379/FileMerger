@@ -1,4 +1,4 @@
-from ISETools.src.isetools.SharedServices.CSVoperations import *
+from MACAddressInventoryTool.src.isetools.SharedServices.CSVoperations import *
 import os
 
 # Includes network endpoint inventory specific values and functions
@@ -9,6 +9,7 @@ class endpointAttributeFile(csvfile):
         self.keyattribute = "macaddress"
         self.fileobjectlist = []
         self.masterkeylist = []
+        self.sourcefilelist = []
 
     def appendMasterKeyList(self,dictionary):
         for key in dictionary:
@@ -26,6 +27,7 @@ class endpointAttributeFile(csvfile):
                     self.columnlist.append(object.filename + ":" + column)
 
     def createMasterDict(self):
+        # For each key in the master key list
         for key in self.masterkeylist:
             # Check to see if key exists in each object dictionary
             for object in self.fileobjectlist:
@@ -34,14 +36,30 @@ class endpointAttributeFile(csvfile):
                     if key in self.filedict:
                         # If a key has already been created in the master object dictionary,
                         # just add the attributes from the current file to the existing key
+                        i = 0
                         for attribute in object.filedict[key]:
-                            self.filedict[key].append(attribute)
+                            ## First attribute is the source file; add to sourcefile list
+                            if i == 0:
+                                self.sourcefilelist.append(attribute)
+                                i += 1
+                            ## Add the rest of the attributes in the row into the master filedict
+                            else:
+                                self.filedict[key].append(attribute)
+                                i += 1
                     else:
                         # If a key does not exist in the master object dictionary, add the key
                         # and the associated attributes
                         self.filedict[key] = []
+                        i = 0
                         for attribute in object.filedict[key]:
-                            self.filedict[key].append(attribute)
+                            ## First attribute is the source file; add to sourcefile list
+                            if i == 0:
+                                self.sourcefilelist.append(attribute)
+                                i += 1
+                            ## Add the rest of the attributes in the row into the master filedict
+                            else:
+                                self.filedict[key].append(attribute)
+                                i += 1
                 else:
                     # If current dictionary doesn't contain the key, fill in master object dictionary entries with "N/A"
                     # for the number of columns contained in that file
@@ -61,7 +79,7 @@ class endpointAttributeFile(csvfile):
             for key in self.filedict:
                 if r % 20000 == 0:
                     print("Creating row", r)
-                row = [key]
+                row = [key,[x for x in self.sourcefilelist]]
                 i = 0
                 for attribute in self.filedict[key]:
                     if isinstance(attribute, list):

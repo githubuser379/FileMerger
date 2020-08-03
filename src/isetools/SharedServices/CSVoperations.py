@@ -59,6 +59,7 @@ class csvfile:
         while promptUser == True:
             filePrompt = input("Would you like to add another file? ['y' or 'n']: ")
             if filePrompt == "y" or filePrompt == "n":
+                promptUser == False
                 return filePrompt
             else:
                 print("You did not choose 'y' or 'n'.  Please enter 'y' or 'n'")
@@ -105,8 +106,8 @@ class csvfile:
             self.filedict[key] = []
 
             # Add source filename to filedict entry for current row
-            self.filedict[key].append([])
-            self.filedict[key][0].append(self.filename)
+            #self.filedict[key].append([])
+            self.filedict[key].append(self.filename)
 
             # For each column in a row, except for the row containing the key attribute, add attribute
             # values to Filedict
@@ -130,7 +131,7 @@ class csvfile:
         changepreference = input("The default key attribute is '" + keyattributetype + "'. "
                                 "Would you like to change the key attribute? [y/n]: ")
         if changepreference != "y" and changepreference != "n":
-            print("Please enter 'y' or 'n'")
+            print("Please choose 'y' or 'n'")
             self.changeKeyattributePrompt(keyattributetype)
         else:
             if changepreference == 'n':
