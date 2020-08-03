@@ -1,5 +1,5 @@
-from ISETools.src.isetools.SharedServices.CSVoperations import *
-from ISETools.src.isetools.MACAddressInventoryTool.endpointAttrFile import *
+from MACAddressInventoryTool.src.isetools.SharedServices.CSVoperations import *
+from MACAddressInventoryTool.src.isetools.MACAddressInventoryTool.endpointAttrFile import *
 import time
 import datetime
 
