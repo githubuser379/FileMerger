@@ -57,7 +57,7 @@ class csvfile:
     def filePrompt(self):
         promptUser = True
         while promptUser == True:
-            filePrompt = input("Would you like to add another file? ['y' or 'n']: ")
+            filePrompt = input("Would you like to add any files? ['y' or 'n']: ")
             if filePrompt == "y" or filePrompt == "n":
                 promptUser == False
                 return filePrompt

@@ -1,8 +1,7 @@
-import time
 import datetime
-import sys
 import os
 import endpointAttrFile
+import settings
 
 ### This tool merges multiple CSV files that share values in a specified column. It searches
 ### for matching values between the two files in the chosen column.  If a match is found, the tools
@@ -10,6 +9,9 @@ import endpointAttrFile
 
 print("Welcome to the Endpoint Inventory Tool! This tool allows users to merge data from CSV files that contain "
       "columns with matching column fields [ie 'MAC Address' column] ")
+
+# Import preconfigured settings
+preconfiguredfilepathlist = settings.input_filepath_list
 
 # Create master file object to store information from each file run through the script
 masterObject = endpointAttrFile.endpointAttributeFile()
@@ -23,32 +25,50 @@ while True:
     # Create endpointattributefile object
     fileobject =  endpointAttrFile.endpointAttributeFile()
 
-    # Prompt the user for object filepath and filename alias
-    fileobject.getFilepath()
-    fileobject.getName()
+    # Read preconfigured filepath list
+    if len(preconfiguredfilepathlist) > 0:
+        preconfiguredfileused = ""
+        file = preconfiguredfilepathlist.pop(0)     
+        preconfiguredfileused = input("The following file is preconfigured in the settings.py file: "+file+". Use this file?[y/n]: ")
+        while preconfiguredfileused != 'y' and preconfiguredfileused != 'n':
+            preconfiguredfileused = input("Input not valid. Please enter [y/n]: ")
+        if preconfiguredfileused == "y":
+            fileobject.filepath = file
+            fileobject.filename = os.path.basename(fileobject.filepath)[:-4]
+            print('File alias will be: '+fileobject.filename)
+            fileobject.collectColumnlist()
+            fileobject.keyattribute = keyAttribute
+            fileobject.validateKeyAttribute()
+            fileobject.createdict()
+            masterObject.appendMasterKeyList(fileobject.filedict)
+            masterObject.fileobjectlist.append(fileobject)
+        elif preconfiguredfileused == 'n':
+            pass
 
-    # Parse provided filepath file for column names
-    fileobject.collectColumnlist()
+    # If no preconfigured files remaining, directly prompt the user for object filepath and filename alias
+    if len(preconfiguredfilepathlist) == 0:
+        # Prompt user for additional input files
+        addFile = fileobject.filePrompt()
+        if addFile == 'n':
+            break
+        else:
+            fileobject.getFilepath()
+            fileobject.getName()
+            fileobject.collectColumnlist()
+            fileobject.keyattribute = keyAttribute
+            fileobject.validateKeyAttribute()
+            fileobject.createdict()
+            masterObject.appendMasterKeyList(fileobject.filedict)
+            masterObject.fileobjectlist.append(fileobject)
 
-    # Ensure that file object is assigned the previously selected key attribute value
-    fileobject.keyattribute = keyAttribute
-    fileobject.validateKeyAttribute()
+        
 
-    # Create dictionary from file located at provided filepath. Add dictonary keys to master key list
-    fileobject.createdict()
-
-    # Add keys to master key list for later reference
-    masterObject.appendMasterKeyList(fileobject.filedict)
-
-    # Append csvfile object to master object list
-    masterObject.fileobjectlist.append(fileobject)
-
-    # Prompt user for additional input files
-    addFile = fileobject.filePrompt()
-    if addFile == 'n':
-        break
-    else:
-        pass
+        # Prompt user for additional input files
+        addFile = fileobject.filePrompt()
+        if addFile == 'n':
+            break
+        else:
+            pass
 
 # Set the key attribute value for the master object to the value provided by the user
 masterObject.keyattribute = keyAttribute
