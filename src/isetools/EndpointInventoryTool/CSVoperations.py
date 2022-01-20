@@ -37,7 +37,7 @@ class csvfile:
             print("File is not a 'csv' file. Please upload a valid 'csv' file")
 
     def getName(self):
-        fileName = input("Please give the file a name: ")
+        fileName = input("Please give the file an alias: ")
         try:
             str(fileName)
             self.filename = fileName
@@ -50,7 +50,7 @@ class csvfile:
             CSVFile = csv.reader(file)
             for row in CSVFile:
                 for column in row:
-                    self.columnlist.append(column)
+                    self.columnlist.append(column.lower())
                 #Stop after first row is collected. First row contains the column names
                 break
 
@@ -106,7 +106,6 @@ class csvfile:
             self.filedict[key] = []
 
             # Add source filename to filedict entry for current row
-            #self.filedict[key].append([])
             self.filedict[key].append(self.filename)
 
             # For each column in a row, except for the row containing the key attribute, add attribute
@@ -136,7 +135,7 @@ class csvfile:
         else:
             if changepreference == 'n':
                 return keyattributetype.lower()
-            if changepreference == 'y':
+            elif changepreference == 'y':
                 newKeyAttribute = self.chooseNewkeyattribute()
                 return newKeyAttribute.lower()
 

@@ -1,8 +1,8 @@
-from MACAddressInventoryTool.src.isetools.SharedServices.CSVoperations import *
+import CSVoperations
 import os
 
 # Includes network endpoint inventory specific values and functions
-class endpointAttributeFile(csvfile):
+class endpointAttributeFile(CSVoperations.csvfile):
     def __init__(self):
         super().__init__()
         # Define default base attribute
@@ -10,6 +10,7 @@ class endpointAttributeFile(csvfile):
         self.fileobjectlist = []
         self.masterkeylist = []
         self.sourcefilelist = []
+        self.sourcefiledict = {}
 
     def appendMasterKeyList(self,dictionary):
         for key in dictionary:
@@ -18,7 +19,7 @@ class endpointAttributeFile(csvfile):
             else:
                 self.masterkeylist.append(key)
 
-    def createrMasterColumnList(self):
+    def createMasterColumnList(self):
         for object in self.fileobjectlist:
             for column in object.columnlist:
                 if column.lower() == self.keyattribute:
@@ -29,6 +30,8 @@ class endpointAttributeFile(csvfile):
     def createMasterDict(self):
         # For each key in the master key list
         for key in self.masterkeylist:
+            self.sourcefiledict[key]=[]
+            self.filedict[key]=[]
             # Check to see if key exists in each object dictionary
             for object in self.fileobjectlist:
                 if key in object.filedict:
@@ -40,7 +43,8 @@ class endpointAttributeFile(csvfile):
                         for attribute in object.filedict[key]:
                             ## First attribute is the source file; add to sourcefile list
                             if i == 0:
-                                self.sourcefilelist.append(attribute)
+                                if attribute not in self.sourcefiledict[key]:
+                                    self.sourcefiledict[key].append(attribute)
                                 i += 1
                             ## Add the rest of the attributes in the row into the master filedict
                             else:
@@ -49,27 +53,30 @@ class endpointAttributeFile(csvfile):
                     else:
                         # If a key does not exist in the master object dictionary, add the key
                         # and the associated attributes
-                        self.filedict[key] = []
+                        #self.filedict[key] = []
                         i = 0
                         for attribute in object.filedict[key]:
                             ## First attribute is the source file; add to sourcefile list
                             if i == 0:
-                                self.sourcefilelist.append(attribute)
+                                self.sourcefiledict[key].append(attribute)
                                 i += 1
                             ## Add the rest of the attributes in the row into the master filedict
                             else:
                                 self.filedict[key].append(attribute)
                                 i += 1
                 else:
-                    # If current dictionary doesn't contain the key, fill in master object dictionary entries with "N/A"
+                    # If current dictionary doesn't contain the key, add a key to the master object dict
+                    #self.filedict[key]=[]
+                    # Fill in master object dictionary entries with "N/A"
                     # for the number of columns contained in that file
-                    for i in range(len(object.columnlist)):
+                    # print(str(len(object.columnlist))+":"+object.filename)
+                    for i in range(len(object.columnlist)-1):
                         self.filedict[key].append("N/A")
 
     def createOutputCSVFile(self):
         with open(self.filepath, 'w', newline='', encoding='utf-8') as outputFile:
             # Add the column names to the first row of the output CSV File
-            outputFileWriter = csv.writer(outputFile)
+            outputFileWriter = CSVoperations.csv.writer(outputFile)
             firstRow = [self.keyattribute, "Source File"]
             for column in self.columnlist:
                 firstRow.append(column)
@@ -79,7 +86,7 @@ class endpointAttributeFile(csvfile):
             for key in self.filedict:
                 if r % 20000 == 0:
                     print("Creating row", r)
-                row = [key,[x for x in self.sourcefilelist]]
+                row = [key,[x for x in self.sourcefiledict[key]]]
                 i = 0
                 for attribute in self.filedict[key]:
                     if isinstance(attribute, list):
@@ -89,3 +96,4 @@ class endpointAttributeFile(csvfile):
                     else:
                         row.append(attribute)
                 outputFileWriter.writerow(row)
+                r += 1

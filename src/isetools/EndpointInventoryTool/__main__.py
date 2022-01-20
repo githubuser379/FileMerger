@@ -1,26 +1,27 @@
-from MACAddressInventoryTool.src.isetools.SharedServices.CSVoperations import *
-from MACAddressInventoryTool.src.isetools.MACAddressInventoryTool.endpointAttrFile import *
 import time
 import datetime
+import sys
+import os
+import endpointAttrFile
 
 ### This tool merges multiple CSV files that share values in a specified column. It searches
 ### for matching values between the two files in the chosen column.  If a match is found, the tools
 ### adds all remaining data in row to the CSV Output File.
 
 print("Welcome to the Endpoint Inventory Tool! This tool allows users to merge data from CSV files that contain "
-      "columns with matching fields - 'key attributes'. ")
+      "columns with matching column fields [ie 'MAC Address' column] ")
 
-# Create master object to store information for each file run through the script
-masterObject = endpointAttributeFile()
+# Create master file object to store information from each file run through the script
+masterObject = endpointAttrFile.endpointAttributeFile()
 
-# Let the user change the default key attribute, if desired, used to match row values in each file
+# Let the user change the default key attribute, if desired. Key attribute used to find common columns in each file
 currentKeyAttribute = "macaddress"
 keyAttribute = masterObject.changeKeyattributePrompt(currentKeyAttribute)
 
 # Create and store file objects which contain filenames, filepaths, column names & dictionaries for each input file
 while True:
     # Create endpointattributefile object
-    fileobject = csvfile()
+    fileobject =  endpointAttrFile.endpointAttributeFile()
 
     # Prompt the user for object filepath and filename alias
     fileobject.getFilepath()
@@ -37,8 +38,7 @@ while True:
     fileobject.createdict()
 
     # Add keys to master key list for later reference
-    for key in fileobject.filedict:
-        masterObject.appendMasterKeyList(fileobject.filedict)
+    masterObject.appendMasterKeyList(fileobject.filedict)
 
     # Append csvfile object to master object list
     masterObject.fileobjectlist.append(fileobject)
@@ -59,13 +59,13 @@ currentTime = datetime.datetime.now()
 masterObject.filename = currentTime.strftime(dateTimeFormat)+"_MergedCSVfile.csv"
 
 # Set the filepath for the output file
-currentdirectory = os.getcwd()
-masterObject.filepath = currentdirectory+"/OutputFiles/"+masterObject.filename
+scriptdirectory = os.path.abspath(os.path.dirname(__file__))
+masterObject.filepath = scriptdirectory+"/OutputFiles/"+masterObject.filename
 
-# Merge each individual object in file object list into a single master object
-masterObject.createrMasterColumnList()
+# Merge columns from each individual object in file object list into a single master column list
+masterObject.createMasterColumnList()
 
-# Add keys and associated attributes for each file object into master object dict
+# Add keys and associated attributes (csv row data) for each file object into master object dict
 masterObject.createMasterDict()
 
 # Write master object data to output CSV File

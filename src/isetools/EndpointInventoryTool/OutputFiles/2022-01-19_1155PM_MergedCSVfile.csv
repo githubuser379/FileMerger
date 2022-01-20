@@ -1,0 +1,3 @@
+hostname,Source File,1stfile:macaddress,1stfile:ipaddress,2ndfile:macaddress,2ndfile:vendor,2ndfile:ipaddress,2ndfile:contact,3rdfile:macaddress,3rdfile:ipaddress,3rdfile:remediationstatus,3rdfile:analysisstatus,3rdfile:authoritativesource
+r1234567,"['1stfile', '2ndfile', '3rdfile']",AA:BB:CC:DD:EE:FF,10.0.0.1,AA:BB:CC:DD:EE:FF,Apple,10.0.0.1,Joe Smith,AA:BB:CC:DD:EE:FF,10.0.0.1,Complete,Complete,CMDB
+r0000001,['3rdfile'],N/A,N/A,N/A,N/A,N/A,N/A,FF:AA:FF:AA:FF:AA,1.1.1.1,In Progress,Not Started,ISE
