@@ -7,7 +7,7 @@ import settings
 ### for matching values between the two files in the chosen column.  If a match is found, the tools
 ### adds all remaining data in row to the CSV Output File.
 
-print("Welcome to the Endpoint Inventory Tool! This tool allows users to merge data from CSV files that contain "
+print("Welcome to the CSV Merger Tool! This tool allows users to merge data from CSV files that contain "
       "columns with matching column fields [ie 'MAC Address' column] ")
 
 # Import preconfigured settings

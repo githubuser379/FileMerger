@@ -1,3 +1,0 @@
-macaddress,Source File,Inputfile1.csv:ipaddress,Inputfile1.csv:hostname,Inputfile2.csv:vendor,Inputfile2.csv:ipaddress,Inputfile2.csv:hostname,Inputfile2.csv:contact,Inputfile3.csv:ipaddress,Inputfile3.csv:hostname,Inputfile3.csv:remediationstatus,Inputfile3.csv:analysisstatus,Inputfile3.csv:authoritativesource
-aa:bb:cc:dd:ee:ff,"['Inputfile1.csv', 'Inputfile2.csv', 'Inputfile3.csv']",10.0.0.1,R1234567,Apple,10.0.0.1,R1234567,Joe Smith,10.0.0.1,R1234567,Complete,Complete,CMDB
-ff:aa:ff:aa:ff:aa,['Inputfile3.csv'],N/A,N/A,N/A,N/A,N/A,N/A,1.1.1.1,R0000001,In Progress,Not Started,ISE

@@ -28,12 +28,11 @@ class endpointAttributeFile(CSVoperations.csvfile):
                     self.columnlist.append(object.filename + ":" + column)
 
     def createMasterDict(self):
-        # For each key in the master key list
-        for key in self.masterkeylist:
-            self.sourcefiledict[key]=[]
-            self.filedict[key]=[]
-            # Check to see if key exists in each object dictionary
-            for object in self.fileobjectlist:
+        # For each input file
+        for object in self.fileobjectlist:
+            # For each key in Master Key List
+            for key in self.masterkeylist:
+                # Check to see if key exists in current input file
                 if key in object.filedict:
                     # If so, check if key is already in the master object dictionary
                     if key in self.filedict:
@@ -51,9 +50,10 @@ class endpointAttributeFile(CSVoperations.csvfile):
                                 self.filedict[key].append(attribute)
                                 i += 1
                     else:
-                        # If a key does not exist in the master object dictionary, add the key
-                        # and the associated attributes
-                        #self.filedict[key] = []
+                        # If a key does not exist in the master object dictionary, add the key and sourcefile
+                        self.sourcefiledict[key]=[]
+                        self.filedict[key]=[]
+                        # Add the associated attributes
                         i = 0
                         for attribute in object.filedict[key]:
                             ## First attribute is the source file; add to sourcefile list
@@ -65,19 +65,23 @@ class endpointAttributeFile(CSVoperations.csvfile):
                                 self.filedict[key].append(attribute)
                                 i += 1
                 else:
-                    # If current dictionary doesn't contain the key, add a key to the master object dict
-                    #self.filedict[key]=[]
-                    # Fill in master object dictionary entries with "N/A"
-                    # for the number of columns contained in that file
-                    # print(str(len(object.columnlist))+":"+object.filename)
-                    for i in range(len(object.columnlist)-1):
-                        self.filedict[key].append("N/A")
+                    # If current dictionary doesn't contain the key, check if Master dictionary has the key
+                    if key in self.filedict:
+                        for i in range(len(object.columnlist)-1):
+                            self.filedict[key].append("N/A")
+                    # If master dictionary doesn't have the key, add key
+                    else:
+                        self.filedict[key]=[]
+                        self.sourcefiledict[key]=[]
+                    # Fill in master object dictionary entries with "N/A" for the number of columns contained in that file
+                        for i in range(len(object.columnlist)-1):
+                            self.filedict[key].append("N/A")
 
     def createOutputCSVFile(self):
         with open(self.filepath, 'w', newline='', encoding='utf-8') as outputFile:
             # Add the column names to the first row of the output CSV File
             outputFileWriter = CSVoperations.csv.writer(outputFile)
-            firstRow = [self.keyattribute, "Source File"]
+            firstRow = [self.keyattribute, "SourceFiles"]
             for column in self.columnlist:
                 firstRow.append(column)
             outputFileWriter.writerow(firstRow)
