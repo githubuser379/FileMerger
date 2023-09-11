@@ -61,8 +61,6 @@ while True:
             masterObject.appendMasterKeyList(fileobject.filedict)
             masterObject.fileobjectlist.append(fileobject)
 
-        
-
         # Prompt user for additional input files
         addFile = fileobject.filePrompt()
         if addFile == 'n':
@@ -78,7 +76,7 @@ dateTimeFormat = '%Y-%m-%d_%I%M%p'
 currentTime = datetime.datetime.now()
 masterObject.filename = currentTime.strftime(dateTimeFormat)+"_MergedCSVfile.csv"
 
-# Set the filepath for the output file
+# Set the filepath for the output file in the directory from which the script is run
 scriptdirectory = os.path.abspath(os.path.dirname(__file__))
 masterObject.filepath = scriptdirectory+"/OutputFiles/"+masterObject.filename
 

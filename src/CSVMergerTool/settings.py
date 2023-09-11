@@ -1,9 +1,9 @@
 
 
 ## Add preconfigured filepaths
-Inputfile1 = '/Users/m174892/Dev/Segmentation/TrustSec/MACAddressInventoryTool/src/CSVMergerTool/InputFiles/Inputfile1.csv'
-Inputfile2 = '/Users/m174892/Dev/Segmentation/TrustSec/MACAddressInventoryTool/src/CSVMergerTool/InputFiles/Inputfile2.csv'
-Inputfile3 = '/Users/m174892/Dev/Segmentation/TrustSec/MACAddressInventoryTool/src/CSVMergerTool/InputFiles/Inputfile3.csv'
+Inputfile1 = '/Users/M174892/PycharmProjects/filemerger/FileMerger/src/CSVMergerTool/InputFiles/Inputfile1.csv'
+Inputfile2 = '/Users/M174892/PycharmProjects/filemerger/FileMerger/src/CSVMergerTool/InputFiles/Inputfile2.csv'
+Inputfile3 = '/Users/M174892/PycharmProjects/filemerger/FileMerger/src/CSVMergerTool/InputFiles/Inputfile3.csv'
 # Inputfile4 = '' 
 # Inputfile5 = ''
 # Inputfile6 = ''

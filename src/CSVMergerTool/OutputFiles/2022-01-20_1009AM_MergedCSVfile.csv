@@ -1,3 +1,0 @@
-macaddress,Source File,ISEfile:ipaddress,ISEfile:hostname,ISEfile:remediationstatus,ISEfile:analysisstatus,ISEfile:authoritativesource,ServiceNowfile:vendor,ServiceNowfile:ipaddress,ServiceNowfile:hostname,ServiceNowfile:contact,Remediationfile:ipaddress,Remediationfile:hostname
-aa:bb:cc:dd:ee:ff,"['ISEfile', 'ServiceNowfile', 'Remediationfile']",10.0.0.1,R1234567,Complete,Complete,CMDB,Apple,10.0.0.1,R1234567,Joe Smith,10.0.0.1,R1234567
-ff:aa:ff:aa:ff:aa,['ISEfile'],1.1.1.1,R0000001,In Progress,Not Started,ISE,N/A,N/A,N/A,N/A,N/A,N/A
