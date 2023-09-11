@@ -1,15 +1,15 @@
-========
-ISETools
-========
+==========
+FileMerger
+==========
 
 
-Add a short description here!
+Merge CSV Files
 
 
 Description
 ===========
 
-A longer description of your project goes here...
+This python package allows you merge CSV files with related information to make related data easier to view, compare and use without enterprise tools like Alteryx.
 
 
 Note
